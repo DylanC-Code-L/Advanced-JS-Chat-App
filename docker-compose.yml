@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  react-app:
+    container_name: react-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    user: 1000:1000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src/:/app/src
+      - /app/node_modules
