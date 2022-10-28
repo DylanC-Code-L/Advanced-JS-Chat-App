@@ -1,13 +1,13 @@
 import React from "react";
-import RegisterForm from "./Features/Users/RegisterForm";
+import { Outlet } from "react-router-dom";
 
-const App = () => {
+const Root = () => {
   return (
     <main className="bg-slate-300 h-[100vh]">
       <h1 className="text-white text-4xl text-center py-5">Chat-App</h1>
-      <RegisterForm />
+      <Outlet />
     </main>
   );
 };
 
-export default App;
+export default Root;

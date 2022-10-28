@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   return (
-    <section className="h-[70vh] mx-6 p-6 bg-white rounded-lg">
+    <section className="mx-6 p-6 bg-white rounded-lg">
       <div className="flex">
         <AiOutlineForm className="text-green-400 h-8 w-8 mr-4" />
         <h2 className="text-2xl font-semibold">Sign up</h2>
@@ -63,10 +63,10 @@ const RegisterForm = () => {
       </form>
 
       <hr className="mt-5 mb-6" />
-      <a to="/login" className="text-center">
+      <Link to="/login" className="text-center block">
         Already have an account ?
-        <span className="text-blue-500 font-bold">Log in</span>
-      </a>
+        <span className="text-blue-500 font-bold"> Log in</span>
+      </Link>
     </section>
   );
 };
