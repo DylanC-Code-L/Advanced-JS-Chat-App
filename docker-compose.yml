@@ -3,13 +3,13 @@ version: '3.8'
 services:
   react-app:
     container_name: react-app
-    build:
-      context: .
+    build: 
+      context: ./src/client/
       dockerfile: Dockerfile
       args:
         - NODE_ENV=development
     env_file:
-      - .env
+      - ./src/client/.env
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -17,5 +17,20 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./src/:/app/src
+      - ./src/client/src:/app/src
+      - /app/node_modules
+     
+  api-dev:
+    container_name: api-dev
+    build:
+      context: ./src/api/
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    env_file:
+      - ./src/api/src/Configs/.env
+    ports:
+      - 5000:5000
+    volumes:
+      - ./src/api:/app
       - /app/node_modules

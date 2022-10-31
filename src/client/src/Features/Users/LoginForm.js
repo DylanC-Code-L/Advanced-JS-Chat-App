@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineVpnKey } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { logUser } from "../../Api/users";
 
 const LoginForm = () => {
+  const [user, setUser] = useState({});
+
+  const handleChange = (e) =>
+    setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    logUser(user);
+  };
+
   return (
     <section className="mx-6 p-6 bg-white rounded-lg">
       <div className="flex">
@@ -12,12 +23,19 @@ const LoginForm = () => {
       <p className="my-4">Become a member and text the world</p>
       <hr />
 
-      <form className="mt-5">
+      <form className="mt-5" onSubmit={handleSubmit}>
         <fieldset className="flex flex-col mb-4">
           <label htmlFor="name">
             Email / Pseudo <span className="text-red-500">*</span>
           </label>
-          <input type="text" id="name" className="border rounded-lg mt-1 p-2" />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            onChange={handleChange}
+            className="border rounded-lg mt-1 p-2"
+          />
         </fieldset>
 
         <fieldset className="flex flex-col mb-4">
@@ -26,7 +44,10 @@ const LoginForm = () => {
           </label>
           <input
             type="password"
+            name="password"
             id="password"
+            required
+            onChange={handleChange}
             className="border rounded-lg mt-1 p-2"
             placeholder="Enter your password"
           />
@@ -34,7 +55,13 @@ const LoginForm = () => {
 
         <fieldset className="mt-2 mb-4 flex justify-between">
           <div>
-            <input type="checkbox" id="remember" className="mr-2" />
+            <input
+              type="checkbox"
+              id="remember"
+              name="remember"
+              onChange={handleChange}
+              className="mr-2"
+            />
             <label htmlFor="remember">Remember me</label>
           </div>
           <Link className="text-slate-400">Forgot your password ?</Link>
