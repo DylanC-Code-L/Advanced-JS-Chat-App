@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-
+import { AiFillBell } from "react-icons/ai";
+import { FaUserFriends } from "react-icons/fa";
+import { RiMenu3Fill } from "react-icons/ri";
 const Navbar = () => {
-  const [search, setSearch] = useState("");
-
-  const handleChange = (e) => setSearch(e.target.value);
-
   return (
-    <nav>
-      <input
-        type="search"
-        onChange={handleChange}
-        className="border rounded-lg my-1 p-2"
-      />
+    <nav className="flex justify-between w-full">
+      <RiMenu3Fill className="h-8 w-8 cursor-pointer" />
+
+      <div className="flex">
+        <FaUserFriends className="h-8 w-8 mr-4 cursor-pointer" />
+        <AiFillBell className="h-8 w-8 cursor-pointer" />
+      </div>
     </nav>
   );
 };

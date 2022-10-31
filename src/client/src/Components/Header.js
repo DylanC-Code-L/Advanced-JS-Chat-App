@@ -1,11 +1,15 @@
 import React from "react";
+import { useHref } from "react-router-dom";
 import Navbar from "./Navbar";
 
 const Header = () => {
+  const url = useHref()
+    .split("/")
+    .find((v) => v === "account");
+
   return (
-    <header className="bg-slate-300 flex justify-evenly items-center p-8">
-      <div className="h-[100px] w-[150px] bg-green-300 rounded-lg"></div>
-      {/* <Navbar /> */}
+    <header className="flex justify-evenly items-center p-8 border-b shadow-xl">
+      {!url && <Navbar />}
     </header>
   );
 };

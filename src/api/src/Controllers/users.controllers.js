@@ -27,7 +27,7 @@ export const userLogIn = async (req, res) => {
     $or: [{ pseudo: name }, { email: name }],
   });
 
-  if (user.password !== password)
+  if (!user || user?.password !== password)
     return res.status(400).send({ error: "Wrong informations" });
   res.status(200).send({ result: user });
 };

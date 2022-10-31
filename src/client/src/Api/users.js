@@ -20,3 +20,11 @@ export const logInUser = async (data) => {
     console.error(error);
   }
 };
+
+export const getUsers = async () => {
+  try {
+    
+  } catch (error) {
+    
+  }
+};

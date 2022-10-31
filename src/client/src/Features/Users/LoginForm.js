@@ -15,7 +15,10 @@ const LoginForm = () => {
     e.preventDefault();
     const result = await logInUser(user);
 
-    if (result) navigate("/");
+    if (!result) return;
+
+    localStorage.setItem("token", "ok");
+    navigate("/");
   };
 
   return (

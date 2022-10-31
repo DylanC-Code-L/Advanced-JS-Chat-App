@@ -6,9 +6,9 @@ const Root = () => {
   return (
     <>
       <Header />
-      <main className="bg-slate-300 h-[100vh]">
-        <Outlet />
-      </main>
+      {/* <main className="bg-slate-300 h-[100vh]"> */}
+      <Outlet />
+      {/* </main> */}
     </>
   );
 };
