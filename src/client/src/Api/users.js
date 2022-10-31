@@ -1,7 +1,6 @@
 import axios from "axios";
-
 const req = axios.create({
-  baseURL: `http://localhost:${process.env.SERVER}/api/users`,
+  baseURL: `http://localhost:5000/api/users`,
 });
 
 export const addUser = async (data) => {
@@ -13,9 +12,9 @@ export const addUser = async (data) => {
   }
 };
 
-export const logUser = async (data) => {
+export const logInUser = async (data) => {
   try {
-    const response = await req.post("", data);
+    const response = await req.post("/login", data);
     return response.data;
   } catch (error) {
     console.error(error);

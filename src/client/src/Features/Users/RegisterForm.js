@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { AiOutlineForm } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addUser } from "../../Api/users";
 import ErrorMessage from "../../Components/ErrorMessage";
 
 const RegisterForm = () => {
   const [user, setUser] = useState({});
   const [confirm, setConfirm] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -16,9 +18,13 @@ const RegisterForm = () => {
     setConfirm(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (confirm) addUser(user);
+    if (!confirm) return;
+
+    const { result } = await addUser(user);
+
+    if (result) navigate("/");
   };
 
   return (

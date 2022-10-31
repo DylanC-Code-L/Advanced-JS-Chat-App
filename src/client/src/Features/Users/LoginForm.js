@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { MdOutlineVpnKey } from "react-icons/md";
-import { Link } from "react-router-dom";
-import { logUser } from "../../Api/users";
+import { Link, useNavigate } from "react-router-dom";
+import { logInUser } from "../../Api/users";
 
 const LoginForm = () => {
   const [user, setUser] = useState({});
 
+  const navigate = useNavigate("/");
+
   const handleChange = (e) =>
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    logUser(user);
+    const result = await logInUser(user);
+
+    if (result) navigate("/");
   };
 
   return (
@@ -33,6 +37,7 @@ const LoginForm = () => {
             id="name"
             name="name"
             required
+            defaultValue="dylan"
             onChange={handleChange}
             className="border rounded-lg mt-1 p-2"
           />
@@ -47,6 +52,7 @@ const LoginForm = () => {
             name="password"
             id="password"
             required
+            defaultValue="azerty"
             onChange={handleChange}
             className="border rounded-lg mt-1 p-2"
             placeholder="Enter your password"
