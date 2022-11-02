@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { UsersRoutes } from "./Routes/users.routes.js";
 import bodyParser from "body-parser";
 import cors from "cors";
+import { MessagesRoutes } from "./Routes/messages.routes.js";
 
 dotenv.config({ path: "./Configs/.env" });
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 
 // Roads
 app.use("/api/users", UsersRoutes);
+app.use("/api/messages", MessagesRoutes);
 
 // Server listen
 

@@ -1,6 +1,6 @@
 import { Users } from "../Models/Users.js";
 
-export const addUser = async (req, res) => {
+const addUser = async (req, res) => {
   const { email, pseudo, password } = req.body;
 
   const user = await new Users({ email, pseudo, password }).save();
@@ -8,7 +8,7 @@ export const addUser = async (req, res) => {
   res.status(201).send({ result: user });
 };
 
-export const getUsersByName = async (req, res) => {
+const getUsersByName = async (req, res) => {
   const { pseudo } = req.params;
 
   const users = await Users.find({
@@ -22,7 +22,7 @@ export const getUsersByName = async (req, res) => {
   res.status(200).send(users);
 };
 
-export const userLogIn = async (req, res) => {
+const userLogIn = async (req, res) => {
   const { name, password } = req.body;
 
   const user = await Users.findOne({
@@ -34,9 +34,11 @@ export const userLogIn = async (req, res) => {
   res.status(200).send(user);
 };
 
-export const getUsers = async (req, res) => {
+const getUsers = async (req, res) => {
   const users = await Users.find({}, "pseudo");
 
   if (!users) return res.status(400).send({ error: "Try later" });
   res.status(200).send(users);
 };
+
+export { addUser, getUsers, getUsersByName, userLogIn };

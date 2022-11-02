@@ -1,16 +1,11 @@
 import Express from "express";
-import {
-  addUser,
-  getUsers,
-  getUsersByName,
-  userLogIn,
-} from "../Controllers/users.controllers.js";
+import * as Controllers from "../Controllers/users.controllers.js";
 
 const router = Express.Router();
 
-router.post("", addUser);
-router.post("/login", userLogIn);
-router.get("/all", getUsers);
-router.get("/:pseudo", getUsersByName);
+router.post("/", Controllers.addUser);
+router.post("/login", Controllers.userLogIn);
+router.get("/all", Controllers.getUsers);
+router.get("/:pseudo", Controllers.getUsersByName);
 
 export { router as UsersRoutes };
