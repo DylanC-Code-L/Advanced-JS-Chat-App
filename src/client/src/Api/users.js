@@ -21,10 +21,10 @@ export const logInUser = async (data) => {
   }
 };
 
+export const getUserByName = async (name) => {
+  return await req.get(`/${name}`);
+};
+
 export const getUsers = async () => {
-  try {
-    
-  } catch (error) {
-    
-  }
+  return await req.get("/all");
 };

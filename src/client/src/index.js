@@ -8,6 +8,7 @@ import "./Styles/index.css";
 import Home from "./Pages/Home";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import Message from "./Pages/Message";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginForm /> },
         ],
       },
+      { path: "message/:id", element: <Message /> },
     ],
   },
 ]);

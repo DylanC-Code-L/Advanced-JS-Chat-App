@@ -82,7 +82,7 @@ const LoginForm = () => {
       </form>
 
       <hr className="mt-5 mb-6" />
-      <Link to="/register" className="text-center block">
+      <Link to="/account/register" className="text-center block">
         Don't have an account ?
         <span className="text-blue-500 font-bold"> Sign up</span>
       </Link>

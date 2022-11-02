@@ -103,7 +103,7 @@ const RegisterForm = () => {
       </form>
 
       <hr className="mt-5 mb-6" />
-      <Link to="/login" className="text-center block">
+      <Link to="/account/login" className="text-center block">
         Already have an account ?
         <span className="text-blue-500 font-bold"> Log in</span>
       </Link>
