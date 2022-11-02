@@ -4,7 +4,7 @@ import db from "../Configs/database.js";
 const schema = new Schema({
   user1: { type: String, required: true },
   user2: { type: String, required: true },
-  messages: [{ body: String }],
+  messages: [{ user: String, message: String }],
 });
 
-export const Message = db.model("Message", schema);
+export const Conversation = db.model("Conversation", schema);
