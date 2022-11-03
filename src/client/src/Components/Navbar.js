@@ -1,14 +1,19 @@
-import React, { useState } from "react";
-import { AiFillBell } from "react-icons/ai";
+import React from "react";
+import { AiFillBell, AiFillHome } from "react-icons/ai";
 import { FaUserFriends } from "react-icons/fa";
-import { RiMenu3Fill } from "react-icons/ri";
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
   return (
     <nav className="flex justify-between w-full">
-      <RiMenu3Fill className="h-8 w-8 cursor-pointer" />
+      <Link to="/">
+        <AiFillHome className="h-8 w-8 cursor-pointer" />
+      </Link>
 
       <div className="flex">
-        <FaUserFriends className="h-8 w-8 mr-4 cursor-pointer" />
+        <Link to="/conversations">
+          <FaUserFriends className="h-8 w-8 mr-4 cursor-pointer" />
+        </Link>
         <AiFillBell className="h-8 w-8 cursor-pointer" />
       </div>
     </nav>

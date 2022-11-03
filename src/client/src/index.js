@@ -8,7 +8,8 @@ import "./Styles/index.css";
 import Home from "./Pages/Home";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import Message from "./Pages/Message";
+import Conversation from "./Pages/Conversation";
+import AllConversations from "./Pages/AllConversations";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
@@ -26,7 +27,8 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginForm /> },
         ],
       },
-      { path: "message/:uid2", element: <Message /> },
+      { path: "conversation/:uid2", element: <Conversation /> },
+      { path: "conversations", element: <AllConversations /> },
     ],
   },
 ]);

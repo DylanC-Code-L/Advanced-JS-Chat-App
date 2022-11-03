@@ -1,6 +1,8 @@
 import { Conversation } from "../Models/Conversations.js";
 import { Users } from "../Models/Users.js";
 
+// @ Create new conversation
+// @ Return Object
 const newConversation = async ({ uid, uid2 }) => {
   const users = await Users.find({
     $or: [{ id: { $in: [uid, uid2] } }],
@@ -16,19 +18,23 @@ const newConversation = async ({ uid, uid2 }) => {
   return { new_conversation: conversation };
 };
 
+// @ POST /api/messages/new
+// @ Add new message to conversation
 const newMessage = async (req, res) => {
-  const { user1, user2, message } = req.body;
+  const { cid, uid, message } = req.body;
 
   const conversation = await Conversation.updateOne(
     {
-      $and: [{ user1 }, { user2 }],
+      _id: cid,
     },
-    { $push: { messages: [{ user: user1, message }] } }
+    { $push: { messages: [{ user: uid, message }] } }
   );
 
   res.status(200).send(conversation);
 };
 
+// @ GET /api/messages/user/:id
+// @ Find all user's conversations with his id
 const getConversationsByUser = async (req, res) => {
   const { id } = req.params;
 
@@ -48,6 +54,8 @@ const getConversationsByUser = async (req, res) => {
   res.status(200).send(conversations);
 };
 
+// @ POST /api/messages/
+// @ Find conversation with the both user id
 const getConversation = async (req, res) => {
   const { uid, uid2 } = req.body;
 
@@ -55,7 +63,7 @@ const getConversation = async (req, res) => {
     $and: [{ user1: { $in: [uid, uid2] } }, { user2: { $in: [uid, uid2] } }],
   });
 
-  if (conversation) res.status(200).send(conversation);
+  if (conversation) return res.status(200).send(conversation);
 
   let { new_conversation, error } = await newConversation({ uid, uid2 });
 
