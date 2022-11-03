@@ -1,12 +1,12 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { getAllConversations } from "../Api/conversations";
-import ConversationsList from "../Features/Conversations/ConversationsList";
+import ConversationList from "../Features/Conversations/ConversationList";
 
 const AllConversations = () => {
   const uid = localStorage.getItem("uid");
 
-  const { data, isLoading, error, isError, refetch } = useQuery(
+  const { data, error, refetch, isLoading, isError, isSuccess } = useQuery(
     "conversations",
     () => getAllConversations(uid),
     { refetchOnWindowFocus: false }
@@ -16,13 +16,8 @@ const AllConversations = () => {
   if (isLoading) content = <p>Is Loading ...</p>;
   else if (isError) {
     content = <p className="text-red-500">{error}</p>;
-    refetch();
-  } else
-    content = (
-      <>
-        <ConversationsList conversations={data.data} />
-      </>
-    );
+  } else if (isSuccess)
+    content = <ConversationList conversations={data.data} />
 
   return <section>{content}</section>;
 };

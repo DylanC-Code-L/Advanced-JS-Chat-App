@@ -3,23 +3,22 @@ import Message from "./Message";
 import SendMessageForm from "./SendMessageForm";
 
 const Messages = ({ data }) => {
-  const { messages, _id: cid } = data;
+  const { messages } = data;
   const uid = localStorage.getItem("uid");
 
-  const ordonedMessages = messages.map((message) => {
-    if (message.user === uid)
-      return (
-        <Message message={message.message} right={true} key={message._id} />
-      );
-    return <Message message={message.message} key={message._id} />;
-  });
+  if (messages.length === 0)
+    return <p>Be the first, start this conversation !</p>;
+
+  const ordonedMessages = messages.map((message) => (
+    <Message
+      message={message.message}
+      right={message.user === uid}
+      key={message._id}
+    />
+  ));
 
   return (
-    <>
-      <h2>...</h2>
-      <div className="absolute bottom-16 w-[80vw]">{ordonedMessages}</div>
-      {<SendMessageForm cid={cid} uid={uid} />}
-    </>
+    <ul className="min-h-max flex flex-row items-end">{ordonedMessages}</ul>
   );
 };
 

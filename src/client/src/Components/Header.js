@@ -8,7 +8,7 @@ const Header = () => {
     .find((v) => v === "account");
 
   return (
-    <header className="flex justify-evenly items-center p-8 border-b shadow-xl">
+    <header className="fixed bottom-0 w-full flex justify-evenly items-center p-10 border-b bg-white rounded-t-3xl">
       {!url && <Navbar />}
     </header>
   );

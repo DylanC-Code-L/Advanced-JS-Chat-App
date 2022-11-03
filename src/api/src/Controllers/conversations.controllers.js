@@ -4,10 +4,14 @@ import { Users } from "../Models/Users.js";
 // @ Create new conversation
 // @ Return Object
 const newConversation = async ({ uid, uid2 }) => {
+  if (uid === uid2) return { error: "This issue isn't possible !" };
+
+  // Control if both users exist
   const users = await Users.find({
     $or: [{ id: { $in: [uid, uid2] } }],
   });
 
+  // Send error if one or both do not exist
   if (Number(users.length) !== 2) return { error: "Users hasn't been found !" };
 
   const conversation = await new Conversation({
@@ -15,7 +19,7 @@ const newConversation = async ({ uid, uid2 }) => {
     user2: users[1]._id,
   }).save();
 
-  return { new_conversation: conversation };
+  return { conversation };
 };
 
 // @ POST /api/messages/new
@@ -59,16 +63,22 @@ const getConversationsByUser = async (req, res) => {
 const getConversation = async (req, res) => {
   const { uid, uid2 } = req.body;
 
+  // Find the conversation
   const conversation = await Conversation.findOne({
     $and: [{ user1: { $in: [uid, uid2] } }, { user2: { $in: [uid, uid2] } }],
   });
 
+  // If exist, return it to the client
   if (conversation) return res.status(200).send(conversation);
 
-  let { new_conversation, error } = await newConversation({ uid, uid2 });
+  // Else create new one
+  const { conversation: new_conversation, error } = await newConversation({
+    uid,
+    uid2,
+  });
 
-  if (error) return res.status(404).send({ error });
-  res.status(201).send({ new_conversation });
+  if (error) return res.status(401).send(error);
+  res.status(201).send({ conversation: new_conversation });
 };
 
 export { newMessage, getConversationsByUser, getConversation };

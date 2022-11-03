@@ -6,7 +6,7 @@ const Root = () => {
   return (
     <>
       <Header />
-      <main className="mx-8 my-4">
+      <main className="bg-slate-100 h-[100vh]">
         <Outlet />
       </main>
     </>

@@ -29,10 +29,10 @@ const Home = () => {
     refetch();
   } else
     content = (
-      <>
+      <section className="p-8">
         <SearchUsersForm users={data?.data} setSearch={setSearch} />
         <UsersList users={search} />
-      </>
+      </section>
     );
 
   return content;

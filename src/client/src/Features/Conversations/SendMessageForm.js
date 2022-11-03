@@ -25,10 +25,7 @@ const SendMessageForm = ({ cid, uid }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="absolute -bottom-[6px] w-full left-0"
-    >
+    <form onSubmit={handleSubmit} className="w-full">
       <textarea
         onChange={handleChange}
         value={message}

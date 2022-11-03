@@ -5,9 +5,15 @@ import { IoPersonSharp } from "react-icons/io5";
 const ConversationItem = ({ conversation }) => {
   const { user2: uid2, messages } = conversation;
 
-  let lastMessage = messages.at(-1).message;
-  lastMessage =
-    lastMessage.length > 75 ? lastMessage.slice(0.75) + "..." : lastMessage;
+  let message;
+  if (messages.length === 0)
+    message = <p className="text-slate-400 italic">Empty conversation</p>;
+  else {
+    let lastMessage = messages.at(-1).message;
+    lastMessage =
+      lastMessage.length > 75 ? lastMessage.slice(0.75) + "..." : lastMessage;
+    message = <p className="text-slate-400">Empty conversation</p>;
+  }
 
   return (
     <Link to={`/conversation/${uid2}`}>
@@ -16,7 +22,7 @@ const ConversationItem = ({ conversation }) => {
 
         <div>
           <h2 className="font-bold">{uid2}</h2>
-          <p className="text-slate-400">{lastMessage}</p>
+          {message}
         </div>
       </li>
     </Link>

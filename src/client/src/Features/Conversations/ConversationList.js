@@ -1,7 +1,10 @@
 import React from "react";
 import ConversationItem from "./ConversationItem";
 
-const ConversationsList = ({ conversations }) => {
+const ConversationList = ({ conversations }) => {
+  if (conversations.length === 0)
+    return <p className="text-center">Any conversation has been found !</p>;
+
   const ordonnedConversations = conversations.map((conversation) => (
     <ConversationItem conversation={conversation} key={conversation._id} />
   ));
@@ -9,4 +12,4 @@ const ConversationsList = ({ conversations }) => {
   return <ul>{ordonnedConversations}</ul>;
 };
 
-export default ConversationsList;
+export default ConversationList;

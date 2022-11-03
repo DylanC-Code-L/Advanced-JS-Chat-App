@@ -23,13 +23,16 @@ const SearchUsersForm = ({ users, setSearch }) => {
   };
 
   return (
-    <form className="flex items-center" onSubmit={(e) => e.preventDefault()}>
+    <form
+      className="flex items-center border rounded-md bg-white relative"
+      onSubmit={(e) => e.preventDefault()}
+    >
+      <BsSearch className="h-6 w-6 mx-4 absolute" />
       <input
         type="text"
         onChange={handleChange}
-        className="w-full border rounded-md p-2"
+        className="w-full p-4 pl-14 rounded-md"
       />
-      <BsSearch className="h-6 w-6 mx-4" />
     </form>
   );
 };

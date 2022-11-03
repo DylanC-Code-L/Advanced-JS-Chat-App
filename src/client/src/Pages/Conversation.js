@@ -4,6 +4,8 @@ import { useQuery } from "react-query";
 import { getConversation } from "../Api/conversations";
 import ErrorMessage from "../Components/ErrorMessage";
 import Messages from "../Features/Conversations/Messages";
+import SendMessageForm from "../Features/Conversations/SendMessageForm";
+import UserBlock from "../Features/Conversations/UserBlock";
 
 const conversation = () => {
   const { uid2 } = useParams();
@@ -16,10 +18,16 @@ const conversation = () => {
   );
 
   return (
-    <section className="border rounded-lg min-h-[70vh] p-4 relative overflow-hidden">
+    <section className="p-8">
       {isLoading && <p>Is Loading...</p>}
-      {isError && <ErrorMessage text={error} />}
-      {isSuccess && <Messages data={data.data} />}
+      {isError && <ErrorMessage text={error.response.data} />}
+      {isSuccess && (
+        <>
+          <UserBlock />
+          <Messages data={data?.data} />
+          <SendMessageForm cid={data?.data._id} uid={uid} />
+        </>
+      )}
     </section>
   );
 };
