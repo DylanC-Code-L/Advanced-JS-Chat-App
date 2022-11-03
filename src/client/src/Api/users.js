@@ -4,21 +4,11 @@ const req = axios.create({
 });
 
 export const addUser = async (data) => {
-  try {
-    const response = await req.post("", data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+  return await req.post("", data);
 };
 
 export const logInUser = async (data) => {
-  try {
-    const response = await req.post("/login", data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+  return await req.post("/login", data);
 };
 
 export const getUserByName = async (name) => {

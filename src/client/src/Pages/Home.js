@@ -9,10 +9,10 @@ const Home = () => {
   const [search, setSearch] = useState([]);
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const uid = localStorage.getItem("uid");
 
-  // Control is token exist
-  if (!token) navigate("/account/login");
+  // Control is uid exist
+  if (!uid) navigate("/account/login");
 
   // Get users
   const { data, isError, error, isLoading, refetch } = useQuery(

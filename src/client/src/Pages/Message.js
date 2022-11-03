@@ -1,9 +1,17 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 const Message = () => {
-  return (
-      <h1>Lola</h1>
+  const { uid2 } = useParams();
+
+  const { data, error, isLoading, isError } = useQuery(
+    ["conversation", uid2],
+    () => {},
+    { refetchOnWindowFocus: false }
   );
+
+  return <section></section>;
 };
 
 export default Message;

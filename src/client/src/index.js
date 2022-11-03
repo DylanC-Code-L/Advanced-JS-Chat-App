@@ -26,7 +26,7 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginForm /> },
         ],
       },
-      { path: "message/:id", element: <Message /> },
+      { path: "message/:uid2", element: <Message /> },
     ],
   },
 ]);

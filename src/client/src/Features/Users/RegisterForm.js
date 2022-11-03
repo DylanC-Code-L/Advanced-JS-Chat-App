@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineForm } from "react-icons/ai";
+import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { addUser } from "../../Api/users";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -18,13 +19,23 @@ const RegisterForm = () => {
     setConfirm(false);
   };
 
+  const { data, refetch } = useQuery("uid", () => addUser(user), {
+    enabled: false,
+    refetchOnWindowFocus: false,
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!confirm) return;
 
-    const { result } = await addUser(user);
+    refetch();
 
-    if (result) navigate("/");
+    if (!data) return;
+
+    localStorage.setItem("uid", data.data);
+
+    navigate("/");
   };
 
   return (

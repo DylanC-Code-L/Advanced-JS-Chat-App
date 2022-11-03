@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MdOutlineVpnKey } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { logInUser } from "../../Api/users";
+import { useQuery } from "react-query";
 
 const LoginForm = () => {
   const [user, setUser] = useState({});
@@ -11,13 +12,20 @@ const LoginForm = () => {
   const handleChange = (e) =>
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
+  const { data, refetch } = useQuery("uid", () => logInUser(user), {
+    refetchOnWindowFocus: false,
+    enabled: false,
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await logInUser(user);
 
-    if (!result) return;
+    refetch();
 
-    localStorage.setItem("token", "ok");
+    if (!data) return;
+
+    localStorage.setItem("uid", data.data);
+
     navigate("/");
   };
 

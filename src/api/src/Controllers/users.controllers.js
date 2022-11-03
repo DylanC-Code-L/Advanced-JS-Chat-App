@@ -5,7 +5,7 @@ const addUser = async (req, res) => {
 
   const user = await new Users({ email, pseudo, password }).save();
 
-  res.status(201).send({ result: user });
+  res.status(201).send(user._id);
 };
 
 const getUsersByName = async (req, res) => {
@@ -31,7 +31,7 @@ const userLogIn = async (req, res) => {
 
   if (!user || user?.password !== password)
     return res.status(400).send({ error: "Wrong informations" });
-  res.status(200).send(user);
+  res.status(200).send(user._id);
 };
 
 const getUsers = async (req, res) => {
