@@ -12,7 +12,7 @@ const ConversationItem = ({ conversation }) => {
     let lastMessage = messages.at(-1).message;
     lastMessage =
       lastMessage.length > 75 ? lastMessage.slice(0.75) + "..." : lastMessage;
-    message = <p className="text-slate-400">Empty conversation</p>;
+    message = <p className="text-slate-400">{lastMessage}</p>;
   }
 
   return (

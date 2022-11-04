@@ -1,26 +1,34 @@
-import React from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 
-const SearchUsersForm = ({ users, setSearch }) => {
-  // Set users search
-  const handleChange = (e) => {
-    const { value } = e.target;
+const SearchUsersForm = ({ users, search, setSearch }) => {
+  let ref = useRef(null);
 
-    // Set search with an empty array if the value is empty
-    if (value === "") return setSearch([]);
+  // Filter users that contain the value
+  const filterUsers = useCallback(
+    (value) =>
+      users.filter((user) => {
+        if (!value) return;
 
-    // Filter users that contain the value
-    const filteredUsers = users.filter((user) => {
-      let pattern = "value";
-      let replace = pattern.replace("value", value);
+        let pattern = "value";
+        let replace = pattern.replace("value", value);
 
-      let regex = new RegExp(replace, "i");
+        let regex = new RegExp(replace, "i");
 
-      if (regex.test(user.pseudo)) return user;
-    });
+        if (regex.test(user.pseudo)) return user;
+      }),
+    []
+  );
 
-    setSearch(filteredUsers);
-  };
+  const handleChange = useCallback(
+    (e) => {
+      let filteredUsers = filterUsers(e.target.value);
+      if (filteredUsers.at(-1) !== search.at(-1)) setSearch(filteredUsers);
+    },
+    [search]
+  );
+
+  useEffect(() => ref.current.focus(), []);
 
   return (
     <form
@@ -29,6 +37,7 @@ const SearchUsersForm = ({ users, setSearch }) => {
     >
       <BsSearch className="h-6 w-6 mx-4 absolute" />
       <input
+        ref={ref}
         type="text"
         onChange={handleChange}
         className="w-full p-4 pl-14 rounded-md"

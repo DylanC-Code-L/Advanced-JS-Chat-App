@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { newMessage } from "../../Api/conversations";
@@ -7,11 +7,10 @@ import { IoIosSend } from "react-icons/io";
 const SendMessageForm = ({ cid, uid }) => {
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => setMessage(e.target.value);
-
+  const ref = useRef(null);
+  const { uid2 } = useParams();
   const queryClient = useQueryClient();
 
-  const { uid2 } = useParams();
   const { mutate } = useMutation({
     mutationKey: ["conversation", uid2],
     mutationFn: () => newMessage({ cid, uid, message }),
@@ -22,7 +21,12 @@ const SendMessageForm = ({ cid, uid }) => {
     e.preventDefault();
     mutate();
     setMessage("");
+    ref.current.focus();
   };
+
+  const handleChange = (e) => setMessage(e.target.value);
+
+  useEffect(() => ref.current.focus(), []);
 
   return (
     <form
@@ -31,6 +35,7 @@ const SendMessageForm = ({ cid, uid }) => {
     >
       <div className="relative flex items-center w-4/5">
         <textarea
+          ref={ref}
           onChange={handleChange}
           value={message}
           className="w-full rounded-full border resize-none bg-slate-100 pl-4 pt-5"
