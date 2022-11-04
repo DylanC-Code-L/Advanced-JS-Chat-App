@@ -68,8 +68,13 @@ const getConversation = async (req, res) => {
     $and: [{ user1: { $in: [uid, uid2] } }, { user2: { $in: [uid, uid2] } }],
   });
 
+  const userName = await Users.findById(uid2, "pseudo");
+
   // If exist, return it to the client
-  if (conversation) return res.status(200).send(conversation);
+  if (conversation)
+    return res
+      .status(200)
+      .send({ ...conversation._doc, pseudo: userName.pseudo });
 
   // Else create new one
   const { conversation: new_conversation, error } = await newConversation({
@@ -78,7 +83,9 @@ const getConversation = async (req, res) => {
   });
 
   if (error) return res.status(401).send(error);
-  res.status(201).send({ conversation: new_conversation });
+  res.status(201).send({
+    conversation: { ...new_conversation._doc, pseudo: userName.pseudo },
+  });
 };
 
 export { newMessage, getConversationsByUser, getConversation };

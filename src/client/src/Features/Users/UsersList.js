@@ -4,6 +4,9 @@ import { BsPersonCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const UsersList = ({ users }) => {
+  if (users.length === 0)
+    return <p className="text-center text-lg mt-8">Search user to text..</p>;
+
   const formatedUsers = users.map((user) => {
     return (
       <Link to={`/conversation/${user._id}`} key={user._id} className="ml-auto">

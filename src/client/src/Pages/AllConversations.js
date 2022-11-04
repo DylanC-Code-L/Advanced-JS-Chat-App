@@ -17,9 +17,9 @@ const AllConversations = () => {
   else if (isError) {
     content = <p className="text-red-500">{error}</p>;
   } else if (isSuccess)
-    content = <ConversationList conversations={data.data} />
+    content = <ConversationList conversations={data.data} />;
 
-  return <section>{content}</section>;
+  return <section className="p-8">{content}</section>;
 };
 
 export default AllConversations;

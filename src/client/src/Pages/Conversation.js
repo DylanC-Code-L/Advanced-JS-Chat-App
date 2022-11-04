@@ -18,14 +18,14 @@ const conversation = () => {
   );
 
   return (
-    <section className="p-8">
-      {isLoading && <p>Is Loading...</p>}
+    <section>
+      {isLoading && <p className="m-4">Is Loading...</p>}
       {isError && <ErrorMessage text={error.response.data} />}
       {isSuccess && (
         <>
-          <UserBlock />
-          <Messages data={data?.data} />
-          <SendMessageForm cid={data?.data._id} uid={uid} />
+          <UserBlock user={data.data.pseudo} />
+          <Messages data={data.data} />
+          <SendMessageForm cid={data.data._id} uid={uid} />
         </>
       )}
     </section>

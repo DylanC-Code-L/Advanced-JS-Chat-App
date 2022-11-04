@@ -17,7 +17,7 @@ const ConversationItem = ({ conversation }) => {
 
   return (
     <Link to={`/conversation/${uid2}`}>
-      <li className="flex items-center bg-slate-100 p-4 rounded-lg">
+      <li className="flex items-center bg-white p-4 mb-4 rounded-lg">
         <IoPersonSharp className="h-10 w-10 mr-3" />
 
         <div>

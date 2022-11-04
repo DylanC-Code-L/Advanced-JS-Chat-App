@@ -7,7 +7,11 @@ const Messages = ({ data }) => {
   const uid = localStorage.getItem("uid");
 
   if (messages.length === 0)
-    return <p>Be the first, start this conversation !</p>;
+    return (
+      <p className="text-center mt-10 text-xl">
+        Be the first, start this conversation !
+      </p>
+    );
 
   const ordonedMessages = messages.map((message) => (
     <Message
@@ -18,7 +22,9 @@ const Messages = ({ data }) => {
   ));
 
   return (
-    <ul className="min-h-max flex flex-row items-end">{ordonedMessages}</ul>
+    <ul className="min-h-[75vh] flex flex-col justify-end p-5">
+      {ordonedMessages}
+    </ul>
   );
 };
 

@@ -1,11 +1,16 @@
 import React from "react";
 import { BsFillPersonFill } from "react-icons/bs";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const UserBlock = ({ user }) => {
   return (
-    <section className="flex items-center rounded-lg shadow-xl p-4">
-      <BsFillPersonFill className="h-10 w-10" />
-      <h1>Bambou</h1>
+    <section className="h-[10vh] flex items-center p-4 rounded-b-3xl shadow-lg bg-white">
+      <Link to="/conversations">
+        <AiOutlineArrowLeft className="h-6 w-6 ml-4 mr-8" />
+      </Link>
+      <BsFillPersonFill className="h-12 w-12 p-2 mr-10 bg-cyan-500 rounded-full" />
+      <h1 className="text-2xl">{user}</h1>
     </section>
   );
 };
