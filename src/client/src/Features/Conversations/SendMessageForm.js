@@ -29,17 +29,19 @@ const SendMessageForm = ({ cid, uid }) => {
       onSubmit={handleSubmit}
       className="h-[15vh] w-full absolute flex justify-center items-center rounded-t-3xl bottom-0 bg-white"
     >
-      <textarea
-        onChange={handleChange}
-        value={message}
-        className="w-4/5 rounded-full border resize-none bg-slate-100 pl-4 pt-5"
-        placeholder="Type here..."
-      ></textarea>
+      <div className="relative flex items-center w-4/5">
+        <textarea
+          onChange={handleChange}
+          value={message}
+          className="w-full rounded-full border resize-none bg-slate-100 pl-4 pt-5"
+          placeholder="Type here..."
+        ></textarea>
 
-      <IoIosSend
-        className="absolute w-10 h-10 text-cyan-600 right-[15%] cursor-pointer"
-        onClick={handleSubmit}
-      />
+        <IoIosSend
+          className="absolute w-10 h-10 text-cyan-600 right-6 cursor-pointer"
+          onClick={handleSubmit}
+        />
+      </div>
     </form>
   );
 };

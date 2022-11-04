@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IoPersonSharp } from "react-icons/io5";
 
 const ConversationItem = ({ conversation }) => {
-  const { user2: uid2, messages } = conversation;
+  const { user2: uid2, messages, pseudo } = conversation;
 
   let message;
   if (messages.length === 0)
@@ -21,7 +21,7 @@ const ConversationItem = ({ conversation }) => {
         <IoPersonSharp className="h-10 w-10 mr-3" />
 
         <div>
-          <h2 className="font-bold">{uid2}</h2>
+          <h2 className="font-bold">{pseudo}</h2>
           {message}
         </div>
       </li>

@@ -44,7 +44,7 @@ const userLogIn = async (req, res) => {
 // @ Find users except this equal to uid
 const getUsers = async (req, res) => {
   const { uid } = req.params;
-  const users = await Users.find({ id: { $ne: uid } }, "pseudo");
+  const users = await Users.find({ _id: { $ne: uid } }, "pseudo");
 
   if (!users) return res.status(400).send({ error: "Try later" });
   res.status(200).send(users);

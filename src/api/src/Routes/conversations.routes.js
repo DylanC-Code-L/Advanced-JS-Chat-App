@@ -5,6 +5,6 @@ const router = Express.Router();
 
 router.post("/", Controllers.getConversation);
 router.post("/new", Controllers.newMessage);
-router.get("/user/:id", Controllers.getConversationsByUser);
+router.get("/user/:uid", Controllers.getConversationsByUser);
 
 export { router as ConversationsRoutes };

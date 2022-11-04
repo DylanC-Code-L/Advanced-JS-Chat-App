@@ -40,18 +40,21 @@ const newMessage = async (req, res) => {
 // @ GET /api/messages/user/:id
 // @ Find all user's conversations with his id
 const getConversationsByUser = async (req, res) => {
-  const { id } = req.params;
+  const { uid } = req.params;
 
   let conversations = await Conversation.find({
-    $or: [{ user1: id }, { user2: id }],
-  }).select(["user2", "messages", "_id"]);
+    $or: [{ user1: uid }, { user2: uid }],
+  });
 
-  const users = conversations.map((conversation) => conversation.user2);
+  const users = conversations.map((conversation) => {
+    const { user2, user1 } = conversation;
+    return user1 === uid ? user2 : user1;
+  });
 
-  const names = await Users.find({ id: { $in: users } }).select("pseudo");
+  const names = await Users.find({ _id: { $in: users } }).select("pseudo");
 
   conversations = conversations.map((v, k) => {
-    v.name = names[k].pseudo;
+    v._doc.pseudo = names[k].pseudo;
     return v;
   });
 
