@@ -15,9 +15,8 @@ const Home = () => {
   if (!uid) navigate("/account/login");
 
   // Get users
-  const { data, isError, error, isLoading, refetch } = useQuery(
-    ["users"],
-    getUsers
+  const { data, isError, error, isLoading, refetch } = useQuery(["users"], () =>
+    getUsers(uid)
   );
 
   // Control status of the request and set content

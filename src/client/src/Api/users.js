@@ -15,6 +15,6 @@ export const getUserByName = async (name) => {
   return await req.get(`/${name}`);
 };
 
-export const getUsers = async () => {
-  return await req.get("/all");
+export const getUsers = async (uid) => {
+  return await req.get(`/all/${uid}`);
 };
