@@ -38,6 +38,6 @@ const queryClient = new QueryClient();
 root.render(
   <QueryClientProvider client={queryClient}>
     <RouterProvider router={router} />
-    <ReactQueryDevtools initialIsOpen />
+    <ReactQueryDevtools />
   </QueryClientProvider>
 );

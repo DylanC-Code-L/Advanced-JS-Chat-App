@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IoPersonSharp } from "react-icons/io5";
 
 const ConversationItem = ({ conversation }) => {
-  const { user2: uid2, messages, pseudo } = conversation;
+  const { user2: uid2, messages, pseudo, connected } = conversation;
 
   let message;
   if (messages.length === 0)
@@ -17,9 +17,11 @@ const ConversationItem = ({ conversation }) => {
 
   return (
     <Link to={`/conversation/${uid2}`}>
-      <li className="flex items-center bg-white p-4 mb-4 rounded-lg">
+      <li className="flex items-center bg-white p-4 mb-4 rounded-lg relative">
         <IoPersonSharp className="h-10 w-10 mr-3" />
-
+        {connected && (
+          <div className="rounded-full h-4 w-4 bg-green-400 absolute left-11 bottom-4"></div>
+        )}
         <div>
           <h2 className="font-bold">{pseudo}</h2>
           {message}

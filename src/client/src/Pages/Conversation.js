@@ -14,7 +14,9 @@ const conversation = () => {
   const { data, error, isLoading, isError, isSuccess } = useQuery(
     ["conversation", uid2],
     () => getConversation({ uid, uid2 }),
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   return (

@@ -1,18 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { getUsers } from "../Api/users";
 import FindUsers from "../Features/Users/FindUsers";
-
-import io from "socket.io-client";
-
-const socket = io("ws://localhost:5000", {
-  auth: { uid: localStorage.getItem("uid") },
-});
-
-socket.on("connect", (socket) => {
-  socket.emit("chat", "salut");
-});
+import socket from "../Web/connection";
 
 const Home = () => {
   const navigate = useNavigate();
