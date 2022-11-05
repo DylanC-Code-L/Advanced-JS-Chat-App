@@ -4,6 +4,16 @@ import { useQuery } from "react-query";
 import { getUsers } from "../Api/users";
 import FindUsers from "../Features/Users/FindUsers";
 
+import io from "socket.io-client";
+
+const socket = io("ws://localhost:5000", {
+  auth: { uid: localStorage.getItem("uid") },
+});
+
+socket.on("connect", (socket) => {
+  socket.emit("chat", "salut");
+});
+
 const Home = () => {
   const navigate = useNavigate();
   const uid = localStorage.getItem("uid");
