@@ -1,8 +1,11 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./Header";
 
 const Root = () => {
+  const socket = useLoaderData();
+  socket.connect();
+
   return (
     <>
       <Header />

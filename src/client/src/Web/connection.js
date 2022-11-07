@@ -1,4 +1,3 @@
-import { useQueryClient } from "react-query";
 import io from "socket.io-client";
 
 const socket = io("ws://localhost:5000", {
@@ -14,5 +13,6 @@ socket.on("connect_error", (err) => {
   console.log(err);
 });
 
-socket.connect();
+
+
 export default socket;

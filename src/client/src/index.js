@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Conversation from "./Pages/Conversation";
 import AllConversations from "./Pages/AllConversations";
+import socket from "./Web/connection";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
@@ -18,8 +19,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    loader: () => socket,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Home />, loader: () => socket },
       {
         path: "account",
         children: [
@@ -28,7 +30,11 @@ const router = createBrowserRouter([
         ],
       },
       { path: "conversation/:uid2", element: <Conversation /> },
-      { path: "conversations", element: <AllConversations /> },
+      {
+        path: "conversations",
+        element: <AllConversations />,
+        loader: () => socket,
+      },
     ],
   },
 ]);

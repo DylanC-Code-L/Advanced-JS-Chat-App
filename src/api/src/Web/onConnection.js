@@ -14,8 +14,10 @@ export const onConnection = (socket) => {
   // Notify users already connected
   notifyUsers(socket);
 
+  disconnectedUser(socket);
+
   // Send users connected to the new user
-  socket.emit("users", users);
+  socket.emit("Users", users);
 };
 
 const notifyUsers = (socket) => {
@@ -23,4 +25,13 @@ const notifyUsers = (socket) => {
     userId: socket.id,
     uid: socket.uid,
   });
+};
+
+const disconnectedUser = (socket) => {
+  socket.on("disconnect", (reason) =>
+    socket.broadcast.emit("User disconnected", {
+      userID: socket.id,
+      uid: socket.uid,
+    })
+  );
 };

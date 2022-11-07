@@ -1,47 +1,50 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useQuery } from "react-query";
+import { useLoaderData } from "react-router-dom";
 import { getAllConversations } from "../Api/conversations";
 import ConversationList from "../Features/Conversations/ConversationList";
-import socket from "../Web/connection";
 
+// Initial State for the reducer
 const initialState = {
-  conversations: [],
   users: [],
+  conversations: [],
 };
 
+// Used to manage severals state with complexity logics
 const reducer = (state, action) => {
   const { users, conversations } = action;
   const { users: oldUsers, conversations: oldConversations } = state;
-
   const uid = localStorage.getItem("uid");
 
+  let connectedUsers = [];
+
   switch (action.type) {
-    case "connected":
-      const filteredUsers = users.filter((user) => user.uid !== uid);
-
-      if (!oldConversations) return { ...state, filteredUsers };
-
-      const updatedConversations = oldConversations.map((conv) => {
-        let uid2 = conv.user1 === uid ? conv.user2 : conv.user1;
-        let find = filteredUsers.find((user) => user.uid === uid2);
-
-        conv.connected = find ? true : false;
-        return conv;
-      });
-
-      return { users: filteredUsers, conversations: updatedConversations };
+    // When get conversations, update users connected if the Users were already send by the sockets
     case "conversations":
-      if (!oldUsers[0]) return { ...state, conversations };
+      connectedUsers = conversations.map((conv) => {
+        const uid2 = uid === conv.user1 ? conv.user2 : conv.user1;
+        let userConnected = oldUsers.find((user) => uid2 === user.uid);
 
-      const usersConnected = conversations.map((conv) => {
-        let uid2 = conv.user1 === uid ? conv.user2 : conv.user1;
-        let find = oldUsers.find((user) => user.uid === uid2);
-
-        conv.connected = find ? true : false;
-        return conv;
+        return {
+          ...conv,
+          status: userConnected ? "connected" : "disconnected",
+        };
       });
 
-      return { ...state, conversations: usersConnected };
+      return { ...state, conversations: connectedUsers };
+    case "users":
+      // When the socket send Users connected, update the conversations to display users connected
+      connectedUsers = oldConversations.map((conv) => {
+        const uid2 = uid === conv.user1 ? conv.user2 : conv.user1;
+        let userConnected = users.find((user) => uid2 === user.uid);
+
+        return {
+          ...conv,
+          status: userConnected ? "connected" : "disconnected",
+        };
+      });
+
+      return { conversations: connectedUsers, users };
     default:
       break;
   }
@@ -49,12 +52,16 @@ const reducer = (state, action) => {
 
 const AllConversations = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const socket = useLoaderData();
 
+  // Watch the connected Users
   useEffect(() => {
-    socket.on("users", (users) => dispatch({ type: "connected", users }));
-  }, []);
+    socket.on("Users", (users) => dispatch({ type: "users", users }));
+  }, [socket]);
 
   const uid = localStorage.getItem("uid");
+
+  // Get the user's conversatiions
   const { error, isLoading, isError, isSuccess } = useQuery(
     "conversations",
     () => getAllConversations(uid),
