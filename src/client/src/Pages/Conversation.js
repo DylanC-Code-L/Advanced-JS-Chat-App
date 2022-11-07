@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getConversation } from "../Api/conversations";
 import ErrorMessage from "../Components/ErrorMessage";
@@ -10,12 +10,14 @@ import UserBlock from "../Features/Conversations/UserBlock";
 const conversation = () => {
   const { uid2 } = useParams();
   const uid = localStorage.getItem("uid");
+  const socket = useLoaderData();
 
   const { data, error, isLoading, isError, isSuccess } = useQuery(
     ["conversation", uid2],
     () => getConversation({ uid, uid2 }),
     {
       refetchOnWindowFocus: false,
+      retry: false,
     }
   );
 
@@ -27,7 +29,7 @@ const conversation = () => {
         <>
           <UserBlock user={data.data.pseudo} />
           <Messages data={data.data} />
-          <SendMessageForm cid={data.data._id} uid={uid} />
+          <SendMessageForm cid={data.data._id} uid={uid} socket={socket} />
         </>
       )}
     </section>

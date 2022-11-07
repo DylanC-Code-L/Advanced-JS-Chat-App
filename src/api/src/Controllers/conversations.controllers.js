@@ -8,7 +8,7 @@ const newConversation = async ({ uid, uid2 }) => {
 
   // Control if both users exist
   const users = await Users.find({
-    $or: [{ id: { $in: [uid, uid2] } }],
+    _id: { $in: [uid, uid2] },
   });
 
   // Send error if one or both do not exist

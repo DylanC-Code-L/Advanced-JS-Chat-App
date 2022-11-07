@@ -22,7 +22,11 @@ const router = createBrowserRouter([
     loader: () => socket,
     children: [
       { index: true, element: <Home /> },
-      { path: "conversation/:uid2", element: <Conversation /> },
+      {
+        path: "conversation/:uid2",
+        element: <Conversation />,
+        loader: () => socket,
+      },
       {
         path: "conversations",
         element: <AllConversations />,

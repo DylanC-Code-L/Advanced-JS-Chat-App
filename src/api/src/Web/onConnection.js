@@ -17,6 +17,8 @@ export const onConnection = (socket) => {
 
   // Send users connected to the new user
   socket.emit("Users", users);
+
+  sendMessage(socket);
 };
 
 const notifyUsers = (socket) => {
@@ -33,4 +35,14 @@ const disconnectedUser = (socket) => {
       uid: socket.uid,
     })
   );
+};
+
+const sendMessage = (socket) => {
+  socket.on("private message", ({ content, to }) => {
+    const { uid } = socket;
+    for (let [id, socket] of io.of("/").sockets) {
+      if (to === socket.uid)
+        socket.emit("private message", { content, from: uid });
+    }
+  });
 };

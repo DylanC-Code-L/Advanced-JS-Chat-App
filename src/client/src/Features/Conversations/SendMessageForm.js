@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { newMessage } from "../../Api/conversations";
 import { IoIosSend } from "react-icons/io";
 
-const SendMessageForm = ({ cid, uid }) => {
+const SendMessageForm = ({ cid, uid, socket }) => {
   const [message, setMessage] = useState("");
 
   const ref = useRef(null);
@@ -19,7 +19,9 @@ const SendMessageForm = ({ cid, uid }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutate();
+    // mutate();
+    console.log(message);
+    socket.emit("private message", { to: uid2, content: message });
     setMessage("");
     ref.current.focus();
   };
