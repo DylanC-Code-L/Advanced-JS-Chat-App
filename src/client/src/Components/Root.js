@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./Header";
 
 const Root = () => {
   const socket = useLoaderData();
-  socket.connect();
+
+  useEffect(() => {
+    socket.connect();
+    socket.on("Users", (users) =>
+      sessionStorage.setItem("connected-users", JSON.stringify(users))
+    );
+  }, []);
 
   return (
     <>

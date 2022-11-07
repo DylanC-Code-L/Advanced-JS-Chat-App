@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { useQuery } from "react-query";
 import { useLoaderData } from "react-router-dom";
 import { getAllConversations } from "../Api/conversations";
@@ -52,12 +52,13 @@ const reducer = (state, action) => {
 
 const AllConversations = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const socket = useLoaderData();
+  // const socket = useLoaderData();
 
-  // Watch the connected Users
+  // Get the connected users store in the session storage
   useEffect(() => {
-    socket.on("Users", (users) => dispatch({ type: "users", users }));
-  }, [socket]);
+    const users = JSON.parse(sessionStorage.getItem("connected-users")) || [];
+    dispatch({ type: "users", users });
+  }, []);
 
   const uid = localStorage.getItem("uid");
 
