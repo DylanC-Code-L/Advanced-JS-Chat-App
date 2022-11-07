@@ -21,20 +21,20 @@ const router = createBrowserRouter([
     element: <Root />,
     loader: () => socket,
     children: [
-      { index: true, element: <Home />, loader: () => socket },
-      {
-        path: "account",
-        children: [
-          { path: "register", element: <RegisterForm /> },
-          { path: "login", element: <LoginForm /> },
-        ],
-      },
+      { index: true, element: <Home /> },
       { path: "conversation/:uid2", element: <Conversation /> },
       {
         path: "conversations",
         element: <AllConversations />,
         loader: () => socket,
       },
+    ],
+  },
+  {
+    path: "/account",
+    children: [
+      { path: "register", element: <RegisterForm />, loader: () => socket },
+      { path: "login", element: <LoginForm />, loader: () => socket },
     ],
   },
 ]);

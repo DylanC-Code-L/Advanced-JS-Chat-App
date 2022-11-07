@@ -52,12 +52,17 @@ const reducer = (state, action) => {
 
 const AllConversations = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  // const socket = useLoaderData();
+  const socket = useLoaderData();
 
   // Get the connected users store in the session storage
   useEffect(() => {
     const users = JSON.parse(sessionStorage.getItem("connected-users")) || [];
     dispatch({ type: "users", users });
+
+    socket.on("Users", (users) => {
+      JSON.stringify(sessionStorage.setItem("users", users));
+      dispatch({ type: "users", users });
+    });
   }, []);
 
   const uid = localStorage.getItem("uid");

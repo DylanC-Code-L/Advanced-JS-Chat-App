@@ -1,5 +1,4 @@
 import { io } from "../server.js";
-import { authHandler } from "./authHandler.js";
 
 export const onConnection = (socket) => {
   const users = [];
@@ -22,7 +21,7 @@ export const onConnection = (socket) => {
 
 const notifyUsers = (socket) => {
   socket.broadcast.emit("User connected", {
-    userId: socket.id,
+    socketId: socket.id,
     uid: socket.uid,
   });
 };
@@ -30,7 +29,7 @@ const notifyUsers = (socket) => {
 const disconnectedUser = (socket) => {
   socket.on("disconnect", (reason) =>
     socket.broadcast.emit("User disconnected", {
-      userID: socket.id,
+      socketId: socket.id,
       uid: socket.uid,
     })
   );

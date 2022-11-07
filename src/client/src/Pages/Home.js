@@ -1,20 +1,12 @@
-import React, { useEffect } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
-import { useQuery, useQueryClient } from "react-query";
+import React from "react";
+import { useQuery } from "react-query";
 import { getUsers } from "../Api/users";
 import FindUsers from "../Features/Users/FindUsers";
 
 const Home = () => {
-  const socket = useLoaderData();
-  const navigate = useNavigate();
   const uid = localStorage.getItem("uid");
 
-  // Control is uid exist
-  if (!uid) navigate("/account/login");
-
-  useEffect(() => {
-    socket.connect();
-  }, []);
+  if (!uid) return;
 
   // Get users
   const { data, isError, error, isLoading, refetch } = useQuery(

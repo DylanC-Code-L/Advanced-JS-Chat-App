@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineVpnKey } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { logInUser } from "../../Api/users";
 import { useQuery } from "react-query";
 
 const LoginForm = () => {
   const [user, setUser] = useState({});
+  const socket = useLoaderData();
 
   const navigate = useNavigate("/");
 
@@ -19,15 +20,22 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     refetch();
+  };
 
+  useEffect(() => {
     if (!data) return;
-
     localStorage.setItem("uid", data.data);
 
+    socket.auth = { uid: data.data };
+    socket.connect();
+
+    socket.on("Users", (users) =>
+      sessionStorage.setItem("connected-users", JSON.stringify(users))
+    );
+
     navigate("/");
-  };
+  }, [data]);
 
   return (
     <section className="mx-6 p-6 bg-white rounded-lg">

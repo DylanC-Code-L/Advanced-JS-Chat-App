@@ -8,7 +8,6 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { onConnection } from "./Web/onConnection.js";
 import { authHandler } from "./Web/authHandler.js";
-import { onDisconnect } from "./Web/onDisconnection.js";
 
 dotenv.config({ path: "./Configs/.env" });
 
@@ -32,7 +31,6 @@ export const io = new Server(httpServer, {
 
 io.use(authHandler);
 io.on("connection", onConnection);
-// io.on("disconnect", onDisconnect);
 
 httpServer.listen(process.env.PORT, () => {
   console.log(`<-----  Server listen on Port: ${process.env.PORT}  ----->`);

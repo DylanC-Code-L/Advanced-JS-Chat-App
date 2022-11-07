@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { AiOutlineForm } from "react-icons/ai";
 import { useQuery } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { addUser } from "../../Api/users";
 import ErrorMessage from "../../Components/ErrorMessage";
 
 const RegisterForm = () => {
   const [user, setUser] = useState({});
   const [confirm, setConfirm] = useState(null);
+  const socket = useLoaderData();
 
   const navigate = useNavigate();
 
@@ -34,6 +35,13 @@ const RegisterForm = () => {
     if (!data) return;
 
     localStorage.setItem("uid", data.data);
+
+    socket.auth = { uid: data.data };
+    socket.connect();
+    
+    socket.on("Users", (users) =>
+      sessionStorage.setItem("connected-users", JSON.stringify(users))
+    );
 
     navigate("/");
   };
