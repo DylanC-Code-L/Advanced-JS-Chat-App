@@ -19,7 +19,9 @@ const Conversation = () => {
     isError,
     isLoading,
     isSuccess,
-  } = useQuery(["conversation", uid2], () => getConversation({ uid, uid2 }));
+  } = useQuery(["conversation", uid2], () => getConversation({ uid, uid2 }), {
+    refetchInterval: 0,
+  });
 
   // const { mutate } = useMutation(["conversation", uid2], {
   //   mutationFn: () => newsRead({ uid, uid2 }),

@@ -76,7 +76,10 @@ const getConversation = async (req, res) => {
 
   // Find the conversation
   const conversation = await Conversation.findOne({
-    $and: [{ user1: { $in: [uid, uid2] } }, { user2: { $in: [uid, uid2] } }],
+    $and: [
+      { "user1.uid": { $in: [uid, uid2] } },
+      { "user2.uid": { $in: [uid, uid2] } },
+    ],
   });
 
   const userName = await Users.findById(uid2, "pseudo");
