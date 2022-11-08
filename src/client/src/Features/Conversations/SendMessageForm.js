@@ -14,14 +14,15 @@ const SendMessageForm = ({ cid, uid, socket }) => {
   const { mutate } = useMutation({
     mutationKey: ["conversation", uid2],
     mutationFn: () => newMessage({ cid, uid, message }),
-    onSuccess: () => queryClient.invalidateQueries(["conversation", uid2]),
+    onSuccess: () => {
+      socket.emit("Private message", { to: uid2, content: message });
+      queryClient.invalidateQueries(["conversation", uid2]);
+    },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // mutate();
-    console.log(message);
-    socket.emit("private message", { to: uid2, content: message });
+    mutate();
     setMessage("");
     ref.current.focus();
   };

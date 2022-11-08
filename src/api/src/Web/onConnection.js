@@ -38,11 +38,11 @@ const disconnectedUser = (socket) => {
 };
 
 const sendMessage = (socket) => {
-  socket.on("private message", ({ content, to }) => {
+  socket.on("Private message", ({ content, to }) => {
     const { uid } = socket;
     for (let [id, socket] of io.of("/").sockets) {
       if (to === socket.uid)
-        socket.emit("private message", { content, from: uid });
+        socket.emit("Private message", { content, from: uid });
     }
   });
 };

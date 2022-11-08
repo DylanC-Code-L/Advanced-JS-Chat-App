@@ -11,5 +11,6 @@ export const newMessage = async (data) => {
 };
 
 export const getAllConversations = async (uid) => {
-  return await req.get(`/user/${uid}`);
+  const data = await req.get(`/user/${uid}`);
+  return data.data;
 };

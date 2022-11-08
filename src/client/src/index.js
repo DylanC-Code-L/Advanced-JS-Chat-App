@@ -43,7 +43,11 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { refetchOnWindowFocus: false, staleTime: 150000 },
+  },
+});
 
 root.render(
   <QueryClientProvider client={queryClient}>

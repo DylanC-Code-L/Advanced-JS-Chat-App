@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from "react";
 import { useQuery } from "react-query";
 import { useLoaderData } from "react-router-dom";
 import { getAllConversations } from "../Api/conversations";
+import ErrorMessage from "../Components/ErrorMessage";
 import ConversationList from "../Features/Conversations/ConversationList";
 
 // Initial State for the reducer
@@ -54,6 +55,15 @@ const AllConversations = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const socket = useLoaderData();
 
+  const uid = localStorage.getItem("uid");
+
+  // Get the user's conversatiions
+  const { status, error, data } = useQuery({
+    queryKey: "conversations",
+    queryFn: () => getAllConversations(uid),
+    keepPreviousData: true,
+  });
+
   // Get the connected users store in the session storage
   useEffect(() => {
     const users = JSON.parse(sessionStorage.getItem("connected-users")) || [];
@@ -63,28 +73,24 @@ const AllConversations = () => {
       JSON.stringify(sessionStorage.setItem("users", users));
       dispatch({ type: "users", users });
     });
-  }, []);
 
-  const uid = localStorage.getItem("uid");
+    if (typeof data === "object")
+      dispatch({ type: "conversations", conversations: data });
+  }, [data]);
 
-  // Get the user's conversatiions
-  const { error, isLoading, isError, isSuccess } = useQuery(
-    "conversations",
-    () => getAllConversations(uid),
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: ({ data }) =>
-        dispatch({ type: "conversations", conversations: data }),
-    }
+  return (
+    <section className="p-8">
+      {status.isLoading ? (
+        <p>Is Loading ...</p>
+      ) : status.isError ? (
+        <ErrorMessage text={error} />
+      ) : (
+        status.isSucces ?? (
+          <ConversationList conversations={state.conversations} />
+        )
+      )}
+    </section>
   );
-
-  let content;
-  if (isLoading) content = <p>Is Loading ...</p>;
-  else if (isError) {
-    content = <p className="text-red-500">{error}</p>;
-  } else if (isSuccess)
-    content = <ConversationList conversations={state.conversations} />;
-  return <section className="p-8">{content}</section>;
 };
 
 export default AllConversations;
