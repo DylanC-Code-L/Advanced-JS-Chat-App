@@ -58,7 +58,13 @@ const AllConversations = () => {
   const uid = localStorage.getItem("uid");
 
   // Get the user's conversatiions
-  const { status, error, data } = useQuery({
+  const {
+    data: conversations,
+    error,
+    isError,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryKey: "conversations",
     queryFn: () => getAllConversations(uid),
     keepPreviousData: true,
@@ -74,20 +80,18 @@ const AllConversations = () => {
       dispatch({ type: "users", users });
     });
 
-    if (typeof data === "object")
-      dispatch({ type: "conversations", conversations: data });
-  }, [data]);
+    if (typeof conversations === "object")
+      dispatch({ type: "conversations", conversations });
+  }, [conversations]);
 
   return (
     <section className="p-8">
-      {status.isLoading ? (
+      {isLoading ? (
         <p>Is Loading ...</p>
-      ) : status.isError ? (
+      ) : isError ? (
         <ErrorMessage text={error} />
       ) : (
-        status.isSucces ?? (
-          <ConversationList conversations={state.conversations} />
-        )
+        isSuccess && <ConversationList conversations={state.conversations} />
       )}
     </section>
   );
