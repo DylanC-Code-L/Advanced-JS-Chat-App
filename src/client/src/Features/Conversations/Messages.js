@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 
-const Messages = ({ data }) => {
-  const { messages } = data;
+const Messages = ({ conversation }) => {
+  const { messages } = conversation;
   const uid = localStorage.getItem("uid");
-  const ref = useRef(null);
+  const scrollRef = useRef(null);
 
   if (messages.length === 0)
     return (
@@ -22,13 +22,20 @@ const Messages = ({ data }) => {
   ));
 
   useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    setTimeout(() =>
+      scrollRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      })
+    );
+  }, []);
 
   return (
-    <ul className="min-h-[75vh] flex flex-col justify-end p-5 bg-slate-100 pb-[17vh]">
+    <ul
+      className="min-h-[75vh] flex flex-col justify-end p-5 bg-slate-100 pb-[17vh]"
+      ref={scrollRef}
+    >
       {ordonedMessages}
-      <div ref={ref}></div>
     </ul>
   );
 };

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const UserBlock = ({ user }) => {
   return (
-    <section className="h-[10vh] flex items-center p-4 rounded-b-3xl shadow-lg bg-white fixed w-full">
+    <section className="h-[10vh] flex items-center p-4 rounded-b-3xl shadow-lg bg-white fixed w-full z-50">
       <Link to="/conversations">
         <AiOutlineArrowLeft className="h-6 w-6 ml-4 mr-8" />
       </Link>

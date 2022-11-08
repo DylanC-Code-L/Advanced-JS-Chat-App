@@ -1,10 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
-const Message = ({ right, message, last }) => {
-  const ref = useRef(null);
-
-  useEffect(() => ref.current?.scrollIntoView({ behavior: "smooth" }), []);
-
+const Message = ({ right, message }) => {
   if (right)
     return (
       <li className="self-end w-max my-3 p-4 rounded-t-2xl rounded-bl-2xl text-white bg-violet-500">

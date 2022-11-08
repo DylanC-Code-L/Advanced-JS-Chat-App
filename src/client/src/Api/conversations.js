@@ -3,11 +3,13 @@ import axios from "axios";
 const req = axios.create({ baseURL: "http://localhost:5000/api/messages/" });
 
 export const getConversation = async ({ uid, uid2 }) => {
-  return await req.post("", { uid, uid2 });
+  const data = await req.post("", { uid, uid2 });
+  return data.data;
 };
 
-export const newMessage = async (data) => {
-  return await req.post("/new", data);
+export const newMessage = async (message) => {
+  const data = await req.post("/new", message);
+  return data.data;
 };
 
 export const getAllConversations = async (uid) => {

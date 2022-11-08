@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getConversation } from "../Api/conversations";
@@ -12,14 +12,16 @@ const conversation = () => {
   const uid = localStorage.getItem("uid");
   const socket = useLoaderData();
 
-  const { data, error, isLoading, isError, isSuccess } = useQuery(
-    ["conversation", uid2],
-    () => getConversation({ uid, uid2 }),
-    {
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  );
+  const {
+    data: conversation,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery(["conversation", uid2], () => getConversation({ uid, uid2 }), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   return (
     <section>
@@ -27,9 +29,9 @@ const conversation = () => {
       {isError && <ErrorMessage text={error.response.data} />}
       {isSuccess && (
         <>
-          <UserBlock user={data.data.pseudo} />
-          <Messages data={data.data} />
-          <SendMessageForm cid={data.data._id} uid={uid} socket={socket} />
+          <UserBlock user={conversation.pseudo} />
+          <Messages conversation={conversation} />
+          <SendMessageForm cid={conversation._id} uid={uid} socket={socket} />
         </>
       )}
     </section>
