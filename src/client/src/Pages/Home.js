@@ -9,22 +9,28 @@ const Home = () => {
   if (!uid) return;
 
   // Get users
-  const { data, isError, error, isLoading, refetch } = useQuery(
-    ["users"],
-    () => getUsers(uid),
-    { refetchOnWindowFocus: false, refetchInterval: 60000 }
+  const {
+    data: users,
+    error,
+    isError,
+    isLoading,
+    isSuccess,
+  } = useQuery(["users"], () => getUsers(uid), {
+    refetchOnWindowFocus: false,
+    refetchInterval: 60000,
+  });
+
+  return (
+    <>
+      {isLoading ? (
+        <p>Is Loading ...</p>
+      ) : isError ? (
+        <ErrorMessage text={error} />
+      ) : (
+        isSuccess && <FindUsers users={users} />
+      )}
+    </>
   );
-
-  // Control status of the request and set content
-  let content;
-
-  if (isLoading) content = <p>Is Loading ...</p>;
-  else if (isError) {
-    content = <p className="text-red-500">{error}</p>;
-    refetch();
-  } else content = <FindUsers users={data?.data} />;
-
-  return content;
 };
 
 export default Home;

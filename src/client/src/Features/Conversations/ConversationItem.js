@@ -4,14 +4,18 @@ import { IoPersonSharp } from "react-icons/io5";
 
 const ConversationItem = ({ conversation }) => {
   const {
-    user2: uid2,
     messages,
     pseudo,
     news,
     status: oldStatus,
+    user1,
+    user2,
   } = conversation;
   const [status, setStatus] = useState(oldStatus);
   const socket = useLoaderData();
+  const uid = localStorage.getItem("uid");
+
+  const uid2 = uid === user1 ? user2 : user1;
 
   useEffect(() => {
     socket.on("User connected", (user) => {

@@ -3,18 +3,22 @@ const req = axios.create({
   baseURL: `http://localhost:5000/api/users`,
 });
 
-export const addUser = async (data) => {
-  return await req.post("", data);
+export const addUser = async (formData) => {
+  const data = await req.post("", formData);
+  return data.data;
 };
 
-export const logInUser = async (data) => {
-  return await req.post("/login", data);
+export const logInUser = async (formData) => {
+  const data = await req.post("/login", formData);
+  return data.data;
 };
 
 export const getUserByName = async (name) => {
-  return await req.get(`/${name}`);
+  const data = await req.get(`/${name}`);
+  return data.data;
 };
 
 export const getUsers = async (uid) => {
-  return await req.get(`/all/${uid}`);
+  const data = await req.get(`/all/${uid}`);
+  return data.data;
 };
