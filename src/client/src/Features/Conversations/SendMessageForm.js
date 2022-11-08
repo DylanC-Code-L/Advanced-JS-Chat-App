@@ -20,7 +20,7 @@ const SendMessageForm = ({ cid, uid, socket }) => {
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     mutate();
     setMessage("");

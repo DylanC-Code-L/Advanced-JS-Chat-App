@@ -50,7 +50,6 @@ const Root = () => {
       queryClient.invalidateQueries(["conversation", from]);
 
       const conversations = queryClient.getQueryData("conversations");
-      console.log(conversations);
       if (!conversations) return;
 
       queryClient.setQueryData("conversations", (conversations) => {

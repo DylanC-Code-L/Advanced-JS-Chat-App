@@ -19,7 +19,7 @@ const newConversation = async ({ uid, uid2 }) => {
     user2: { uid: users[1]._id },
   }).save();
 
-  return conversation;
+  return { conversation };
 };
 
 // @ POST /api/messages/new
@@ -27,11 +27,19 @@ const newConversation = async ({ uid, uid2 }) => {
 const newMessage = async (req, res) => {
   const { cid, uid, message } = req.body;
 
-  const conversation = await Conversation.updateOne(
+  let conversation = await Conversation.findById(cid);
+
+  conversation.messages.push({ user: uid, message });
+  conversation =
+    conversation.user1.uid === uid
+      ? conversation.user2.news + 1
+      : conversation.user1.news + 1;
+
+  conversation = await Conversation.updateOne(
     {
       _id: cid,
     },
-    { $push: { messages: [{ user: uid, message }] } }
+    conversation
   );
 
   res.status(200).send(conversation);
@@ -86,9 +94,7 @@ const getConversation = async (req, res) => {
   });
 
   if (error) return res.status(401).send(error);
-  res.status(201).send({
-    conversation: { ...new_conversation._doc, pseudo: userName.pseudo },
-  });
+  res.status(201).send({ ...new_conversation._doc, pseudo: userName.pseudo });
 };
 
 export { newMessage, getConversationsByUser, getConversation };

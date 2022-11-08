@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getConversation } from "../Api/conversations";
 import ErrorMessage from "../Components/ErrorMessage";
 import Messages from "../Features/Conversations/Messages";
@@ -11,6 +11,7 @@ const Conversation = () => {
   const { uid2 } = useParams();
   const uid = localStorage.getItem("uid");
   const socket = useLoaderData();
+  const queryClient = useQueryClient();
 
   const {
     data: conversation,
@@ -19,7 +20,22 @@ const Conversation = () => {
     isLoading,
     isSuccess,
   } = useQuery(["conversation", uid2], () => getConversation({ uid, uid2 }));
-  console.log("​👉​​ ~ conversation", conversation);
+
+  // const { mutate } = useMutation(["conversation", uid2], {
+  //   mutationFn: () => newsRead({ uid, uid2 }),
+  //   onSuccess: () => {
+  //     const conversations = queryClient.getQueryData("conversations");
+  //     const conversation = conversations.find(
+  //       (conv) => conv.user1 === uid2 || conv.user2 === uid2
+  //     );
+
+  //     const filteredConvs = conversations.filter(
+  //       (conv) => conv.user1 !== uid2 && conv.user2 !== uid2
+  //     );
+
+  //     queryClient.setQueryData("conversations");
+  //   },
+  // });
 
   return (
     <section>
