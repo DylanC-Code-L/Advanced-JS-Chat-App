@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Message from "./Message";
-import SendMessageForm from "./SendMessageForm";
 
 const Messages = ({ data }) => {
   const { messages } = data;
   const uid = localStorage.getItem("uid");
+  const ref = useRef(null);
 
   if (messages.length === 0)
     return (
@@ -21,9 +21,14 @@ const Messages = ({ data }) => {
     />
   ));
 
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
-    <ul className="min-h-[75vh] flex flex-col justify-end p-5">
+    <ul className="min-h-[75vh] flex flex-col justify-end p-5 bg-slate-100 pb-[17vh]">
       {ordonedMessages}
+      <div ref={ref}></div>
     </ul>
   );
 };

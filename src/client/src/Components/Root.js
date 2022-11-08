@@ -55,7 +55,7 @@ const Root = () => {
 
         conversation.news =
           conversation.news === "number" ? conversation.news++ : 1;
-
+ 
         conversations = conversations.filter(
           (conv) => conv.user1 !== from && conv.user2 !== from
         );

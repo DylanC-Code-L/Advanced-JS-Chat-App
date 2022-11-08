@@ -34,7 +34,7 @@ const SendMessageForm = ({ cid, uid, socket }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="h-[15vh] w-full absolute flex justify-center items-center rounded-t-3xl bottom-0 bg-white"
+      className="h-[15vh] w-full fixed flex justify-center items-center rounded-t-3xl bottom-0 bg-white"
     >
       <div className="relative flex items-center w-4/5">
         <textarea
