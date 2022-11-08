@@ -51,12 +51,12 @@ const getConversationsByUser = async (req, res) => {
   const { uid } = req.params;
 
   let conversations = await Conversation.find({
-    $or: [{ user1: uid }, { user2: uid }],
+    $or: [{ "user1.uid": uid }, { "user2.uid": uid }],
   });
 
   const users = conversations.map((conversation) => {
     const { user2, user1 } = conversation;
-    return user1 === uid ? user2 : user1;
+    return user1.uid === uid ? user2.uid : user1.uid;
   });
 
   const names = await Users.find({ _id: { $in: users } }).select("pseudo");
