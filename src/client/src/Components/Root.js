@@ -9,17 +9,20 @@ const Root = () => {
   const uid = localStorage.getItem("uid");
   const queryClient = useQueryClient();
 
-  // Control if uid exist
   useEffect(() => {
+    // If uid isn't exist return the client to the login page
     if (!uid) return navigate("/account/login");
 
+    // Connect the user to socket
     socket.auth = { uid };
     socket.connect();
 
+    // Control the users already connected and store them
     socket.on("Users", (users) => {
       return sessionStorage.setItem("connected-users", JSON.stringify(users));
     });
 
+    // If new user is connecting, updtate the connected users already store
     socket.on("User connected", (user) => {
       let users = JSON.parse(sessionStorage.getItem("connected-users"));
 
@@ -29,6 +32,7 @@ const Root = () => {
       );
     });
 
+    // If user is leaving, update the connected users
     socket.on("User disconnected", (userDisconnected) => {
       const usersConnected = JSON.parse(
         sessionStorage.getItem("connected-users")
@@ -41,29 +45,37 @@ const Root = () => {
       sessionStorage.setItem("connected-users", JSON.stringify(filteredUsers));
     });
 
+    // If new message is sending, set 'conversations' query
     socket.on("Private message", ({ content, from }) => {
       queryClient.invalidateQueries(["conversation", from]);
+
+      const conversations = queryClient.getQueryData("conversations");
+      console.log(conversations);
+      if (!conversations) return;
+
       queryClient.setQueryData("conversations", (conversations) => {
+        // Find the conversation
         let conversation = conversations.find(
           (conv) => conv.user1 === from || conv.user2 === from
         );
 
+        // Add new message to its array
         conversation.messages.push({
           message: content,
           user: from,
         });
-
+        // Increment news counter
         conversation.news =
-          conversation.news === "number" ? conversation.news++ : 1;
- 
+          typeof conversation.news === "number" ? conversation.news + 1 : 1;
+
+        // Remove the old conversation
         conversations = conversations.filter(
           (conv) => conv.user1 !== from && conv.user2 !== from
         );
 
+        // Return updated array
         return [...conversations, conversation];
       });
-
-      return [];
     });
   }, []);
 

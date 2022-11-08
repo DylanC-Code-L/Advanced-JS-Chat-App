@@ -18,9 +18,8 @@ const Conversation = () => {
     isError,
     isLoading,
     isSuccess,
-  } = useQuery(["conversation", uid2], () => getConversation({ uid, uid2 }), {
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery(["conversation", uid2], () => getConversation({ uid, uid2 }));
+  console.log("​👉​​ ~ conversation", conversation);
 
   return (
     <section>

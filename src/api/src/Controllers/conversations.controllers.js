@@ -15,11 +15,11 @@ const newConversation = async ({ uid, uid2 }) => {
   if (Number(users.length) !== 2) return { error: "Users hasn't been found !" };
 
   const conversation = await new Conversation({
-    user1: users[0]._id,
-    user2: users[1]._id,
+    user1: { uid: users[0]._id },
+    user2: { uid: users[1]._id },
   }).save();
 
-  return { conversation };
+  return conversation;
 };
 
 // @ POST /api/messages/new

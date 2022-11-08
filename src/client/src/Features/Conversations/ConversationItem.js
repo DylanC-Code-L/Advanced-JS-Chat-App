@@ -11,7 +11,9 @@ const ConversationItem = ({ conversation }) => {
     user1,
     user2,
   } = conversation;
+
   const [status, setStatus] = useState(oldStatus);
+  const [newMessages, setNewMessages] = useState(news);
   const socket = useLoaderData();
   const uid = localStorage.getItem("uid");
 
@@ -57,9 +59,9 @@ const ConversationItem = ({ conversation }) => {
           {message}
         </div>
 
-        {news && (
+        {newMessages && (
           <div className="w-7 h-7 rounded-full bg-violet-500 flex justify-center items-center ml-auto">
-            {news}
+            {newMessages}
           </div>
         )}
       </li>
