@@ -28,12 +28,12 @@ const newMessage = async (req, res) => {
   const { cid, uid, message } = req.body;
 
   let conversation = await Conversation.findById(cid);
-
+  console.log(conversation);
   conversation.messages.push({ user: uid, message });
-  conversation =
-    conversation.user1.uid === uid
-      ? conversation.user2.news + 1
-      : conversation.user1.news + 1;
+
+  conversation.user1.uid === uid
+    ? conversation.user2.news++
+    : conversation.user1.news++;
 
   conversation = await Conversation.updateOne(
     {
