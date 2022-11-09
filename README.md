@@ -4,6 +4,8 @@
 
 Chat application where each user can text other instantly.
 
+![alt text](https://github.com/DylanC-Code-L/Advanced-JS-Chat-App/blob/main/screenshots/github.png?raw=true)
+
 ## Table of Contents
 
 1. [General Info](#general-info)
