@@ -50,26 +50,36 @@ const Root = () => {
       queryClient.invalidateQueries(["conversation", from]);
 
       const conversations = queryClient.getQueryData("conversations");
-      if (!conversations) return;
+
+      if (!conversations) {
+        queryClient.invalidateQueries("conversations");
+        return;
+      }
 
       queryClient.setQueryData("conversations", (conversations) => {
         // Find the conversation
         let conversation = conversations.find(
-          (conv) => conv.user1 === from || conv.user2 === from
+          (conv) => conv.user1.uid === from || conv.user2.uid === from
         );
 
+        if (!conversation) {
+          queryClient.invalidateQueries("conversations");
+          return conversations;
+        }
         // Add new message to its array
         conversation.messages.push({
           message: content,
           user: from,
         });
+
         // Increment news counter
-        conversation.news =
-          typeof conversation.news === "number" ? conversation.news + 1 : 1;
+        conversation.user1.uid === uid
+          ? conversation.user1.news++
+          : conversation.user2.news++;
 
         // Remove the old conversation
         conversations = conversations.filter(
-          (conv) => conv.user1 !== from && conv.user2 !== from
+          (conv) => conv.user1.uid !== from && conv.user2.uid !== from
         );
 
         // Return updated array

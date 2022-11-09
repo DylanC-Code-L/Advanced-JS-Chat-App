@@ -23,7 +23,7 @@ const reducer = (state, action) => {
     // When get conversations, update users connected if the Users were already send by the sockets
     case "conversations":
       connectedUsers = conversations.map((conv) => {
-        const uid2 = uid === conv.user1 ? conv.user2 : conv.user1;
+        const uid2 = uid === conv.user1.uid ? conv.user2.uid : conv.user1.uid;
         let userConnected = oldUsers.find((user) => uid2 === user.uid);
 
         return {
@@ -36,7 +36,7 @@ const reducer = (state, action) => {
     case "users":
       // When the socket send Users connected, update the conversations to display users connected
       connectedUsers = oldConversations.map((conv) => {
-        const uid2 = uid === conv.user1 ? conv.user2 : conv.user1;
+        const uid2 = uid === conv.user1.uid ? conv.user2.uid : conv.user1.uid;
         let userConnected = users.find((user) => uid2 === user.uid);
 
         return {

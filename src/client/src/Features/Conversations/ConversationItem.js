@@ -3,21 +3,15 @@ import { Link, useLoaderData } from "react-router-dom";
 import { IoPersonSharp } from "react-icons/io5";
 
 const ConversationItem = ({ conversation }) => {
-  const {
-    messages,
-    pseudo,
-    news,
-    status: oldStatus,
-    user1,
-    user2,
-  } = conversation;
+  const { messages, pseudo, status: oldStatus, user1, user2 } = conversation;
 
   const [status, setStatus] = useState(oldStatus);
-  const [newMessages, setNewMessages] = useState(news);
+
   const socket = useLoaderData();
   const uid = localStorage.getItem("uid");
 
-  const uid2 = uid === user1 ? user2 : user1;
+  const uid2 = uid === user1.uid ? user2.uid : user1.uid;
+  const news = uid === user1.uid ? user1.news : user2.news;
 
   useEffect(() => {
     socket.on("User connected", (user) => {
@@ -59,9 +53,9 @@ const ConversationItem = ({ conversation }) => {
           {message}
         </div>
 
-        {newMessages && (
+        {news !== 0 && (
           <div className="w-7 h-7 rounded-full bg-violet-500 flex justify-center items-center ml-auto">
-            {newMessages}
+            {news}
           </div>
         )}
       </li>

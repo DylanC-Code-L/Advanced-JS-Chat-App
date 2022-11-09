@@ -23,9 +23,6 @@ const Navbar = () => {
             } mr-8`}
           />
         </Link>
-        <Link to="/">
-          <AiFillBell className={`${design} ${url === "/..." ? target : ""}`} />
-        </Link>
       </div>
     </nav>
   );

@@ -16,3 +16,8 @@ export const getAllConversations = async (uid) => {
   const data = await req.get(`/user/${uid}`);
   return data.data;
 };
+
+export const readNews = async ({ uid, uid2 }) => {
+  const data = await req.post("/read", { uid, uid2 });
+  return data.data;
+};

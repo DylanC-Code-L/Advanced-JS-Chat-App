@@ -34,11 +34,11 @@ const RegisterForm = () => {
 
     if (!data) return;
 
-    localStorage.setItem("uid", data.data);
+    localStorage.setItem("uid", data);
 
-    socket.auth = { uid: data.data };
+    socket.auth = { uid: data };
     socket.connect();
-    
+
     socket.on("Users", (users) =>
       sessionStorage.setItem("connected-users", JSON.stringify(users))
     );

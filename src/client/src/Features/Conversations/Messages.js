@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Message from "./Message";
 
 const Messages = ({ conversation }) => {
@@ -21,18 +21,18 @@ const Messages = ({ conversation }) => {
     />
   ));
 
-  useEffect(() => {
-    setTimeout(() =>
-      scrollRef.current.scrollIntoView({
+  setTimeout(
+    () =>
+      scrollRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "end",
-      })
-    );
-  }, []);
+      }),
+    20
+  );
 
   return (
     <ul
-      className="min-h-[75vh] flex flex-col justify-end p-5 bg-slate-100 pb-[17vh]"
+      className="min-h-[100vh] flex flex-col justify-end p-5 bg-slate-100 pb-[17vh]"
       ref={scrollRef}
     >
       {ordonedMessages}

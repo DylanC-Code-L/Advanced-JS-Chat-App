@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { getUsers } from "../Api/users";
+import ErrorMessage from "../Components/ErrorMessage";
 import FindUsers from "../Features/Users/FindUsers";
 
 const Home = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getConversation } from "../Api/conversations";
+import { getConversation, readNews } from "../Api/conversations";
 import ErrorMessage from "../Components/ErrorMessage";
 import Messages from "../Features/Conversations/Messages";
 import SendMessageForm from "../Features/Conversations/SendMessageForm";
@@ -23,22 +23,34 @@ const Conversation = () => {
     refetchInterval: 0,
   });
 
-  // const { mutate } = useMutation(["conversation", uid2], {
-  //   mutationFn: () => newsRead({ uid, uid2 }),
-  //   onSuccess: () => {
-  //     const conversations = queryClient.getQueryData("conversations");
-  //     const conversation = conversations.find(
-  //       (conv) => conv.user1 === uid2 || conv.user2 === uid2
-  //     );
+  const { mutate } = useMutation("conversations", {
+    mutationFn: () => readNews({ uid, uid2 }),
+    onSuccess: () => {
+      const conversations = queryClient.getQueryData("conversations");
+      if (!conversations) return;
 
-  //     const filteredConvs = conversations.filter(
-  //       (conv) => conv.user1 !== uid2 && conv.user2 !== uid2
-  //     );
+      let conversation = conversations.find(
+        (conv) => conv.user1.uid === uid2 || conv.user2.uid === uid2
+      );
 
-  //     queryClient.setQueryData("conversations");
-  //   },
-  // });
+      conversation.user1.uid === uid
+        ? (conversation.user1.news = 0)
+        : (conversation.user2.news = 0);
 
+      const filteredConvs = conversations.filter(
+        (conv) => conv.user1.uid !== uid2 && conv.user2.uid !== uid2
+      );
+
+      queryClient.setQueryData("conversations", [
+        ...filteredConvs,
+        conversation,
+      ]);
+    },
+  });
+
+  useEffect(() => {
+    mutate();
+  }, []);
   return (
     <section>
       {isLoading ? (
